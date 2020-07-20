@@ -1,4 +1,5 @@
 import { Renderer } from './Renderer';
+import { RED, BLACK, WHITE } from './Colors';
 
 export class CanvasRenderer extends Renderer {
   canvas: HTMLCanvasElement
@@ -20,16 +21,9 @@ export class CanvasRenderer extends Renderer {
   createImageData() {
     const imageData: ImageData = new ImageData(this.resolution.width * this.scale, this.resolution.height * this.scale);
     for (let i = 0; i < imageData.data.length; i += 4) {
-      // Percentage in the x direction, times 255
-      let x = (i % 40) / 40 * 255;
-      // Percentage in the y direction, times 255
-      let y = Math.ceil(i / 400) / 100 * 255;
 
-      // Modify pixel data
-      imageData.data[i + 0] = 0;        // R value
-      imageData.data[i + 1] = 0;        // G value
-      imageData.data[i + 2] = 0;  // B value
-      imageData.data[i + 3] = 255;      // A value
+      imageData.data.set(WHITE, i);
+
     }
     return imageData;
   }
