@@ -1,7 +1,7 @@
 import { Renderer } from './Renderer';
 import { RED, BLACK, WHITE } from './Colors';
 
-export class CanvasRenderer extends Renderer {
+export abstract class CanvasRendererBase extends Renderer {
   canvas: HTMLCanvasElement
   context: CanvasRenderingContext2D;
   scale: number = 1;
@@ -11,6 +11,13 @@ export class CanvasRenderer extends Renderer {
     this.canvas = canvas;
     this.context = this.canvas.getContext('2d')
     this.scale = this.canvas.height / this.resolution.height;
+  }
+}
+
+export class CanvasRenderer extends CanvasRendererBase {
+
+  constructor(canvas: HTMLCanvasElement) {
+    super(canvas);
   }
 
 

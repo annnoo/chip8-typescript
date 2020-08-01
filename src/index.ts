@@ -5,5 +5,9 @@ const l = new chip.Chip8()
 console.log("h21i")
 
 const renderer = new CanvasRenderer(canvas);
-renderer.render([])
+const render = () => {
+  renderer.render([])
+  requestAnimationFrame(render);
+}
+render();
 
