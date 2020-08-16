@@ -4,6 +4,11 @@ export abstract class Renderer {
     height: 32
   };
 
+  constructor(width = 64, height = 32) {
+    this.resolution.width = width;
+    this.resolution.height = height;
+  }
+
   get pixelCount() {
     return this.resolution.height * this.resolution.width;
   }
