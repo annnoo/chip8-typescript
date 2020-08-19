@@ -1,5 +1,5 @@
 import { uint8 } from './Types';
-import { initVram } from './VRam';
+import { initVram, SCREEN_WIDTH } from './VRam';
 
 import { OPCODE_MAP, BasicOpcodes } from './Opcodes'
 import { START } from './Util'
@@ -34,23 +34,25 @@ export class Chip8 {
   }
 
   step() {
-    if (this.programCounter < PROGRAM_START + 40) {
-      const opcode = this.fetchOpcode();
-      this.programCounter += 2
-      this.execute(opcode);
-    }
+
+    const opcode = this.fetchOpcode();
+    this.programCounter += 2
+
+    this.execute(opcode);
+
   }
 
   execute(opcode: number) {
     const maskedOpcode = START(opcode)
     const opcodeFunction = this.opcodes[maskedOpcode];
-    console.log(opcodeFunction);
     if (opcodeFunction) {
       opcodeFunction(this, opcode);
+      console.log(`${opcode.toString(16)}`)
     }
     else {
       console.log(`${opcode.toString(16)} - Not implemented`);
     }
+
   }
 
   loadProgram(data: Uint8Array) {
@@ -64,9 +66,11 @@ export class Chip8 {
     return this.ram[this.programCounter] << 8 | this.ram[this.programCounter + 1];
   }
 
-  get vramFlattened() {
-    return [].concat.apply([], this.vram);
+  setPixel(x: number, y: number, value: boolean) {
+    this.vram[y * SCREEN_WIDTH + x] = value;
   }
+
+
 
 
 }

@@ -10,7 +10,6 @@ export class CanvasDrawRenderer extends CanvasRendererBase {
   }
 
   render(pixels: boolean[]): void {
-    console.log(pixels.length)
     this.clear();
     pixels.forEach((item, index) => {
       let x = index % this.resolution.width;
