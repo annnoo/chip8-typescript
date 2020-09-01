@@ -9,8 +9,16 @@ console.log("h21i")
 const renderer = new CanvasDrawRenderer(canvas);
 const render = () => {
 
+
   renderer.render(chip8.vram);
-  chip8.step()
+  if (!chip8.paused) {
+    if (chip8.delayTimer > 0) {
+      chip8.delayTimer -= 1;
+    }
+    for (let index = 0; index < 10; index++) {
+      chip8.step()
+    }
+  }
   info.innerHTML = JSON.stringify(chip8);
 
   requestAnimationFrame(render);
@@ -31,13 +39,16 @@ console.log(fileInput);
 
 fileInput.addEventListener("change", (ev) => {
   console.log(fileInput.files[0].arrayBuffer().then(i => {
+    chip8.paused = true;
+    chip8.reset();
     chip8.loadProgram(new Uint8Array(i));
+    chip8.paused = false;
     render()
   }))
 }, false);
 
 
-const GAME_URL = 'http://localhost:9000/game.ch8';
+const GAME_URL = 'http://localhost:9000/test_opcode.ch8';
 fetch(GAME_URL).then(res => {
   res.arrayBuffer().then(buffer => {
     chip8.loadProgram(new Uint8Array(buffer))
