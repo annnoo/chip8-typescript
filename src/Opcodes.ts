@@ -280,4 +280,3 @@ export function _0xFX55_COPY(cpu: Chip8, opcode: number) {
 }
 
 export const OPCODE_MAP = new Map<number, OpcodeFunction>();
-
